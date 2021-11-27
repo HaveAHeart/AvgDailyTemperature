@@ -29,8 +29,11 @@ if __name__ == '__main__':
             else:
                 res = getWeatherData(args[0], datetime.now().year, datetime.now().month, datetime.now().day)
                 if res.status_code == 200:
-                    avgC = res.json().get('forecast').get('forecastday')[0].get('day').get('avgtemp_c')
-                    print('Average temperature for today for {} is {} C.'.format(args[0], avgC))
+                    dailyRes = res.json().get('forecast').get('forecastday')[0].get('day')
+                    avgC = dailyRes.get('avgtemp_c')
+                    avgF = dailyRes.get('avgtemp_f')
+
+                    print('Average temperature for today for {} is {}C / {}F.'.format(args[0], avgC, avgF))
                 else:
                     print('the error has occured. Maybe, try another city?')
 
