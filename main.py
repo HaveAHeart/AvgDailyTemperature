@@ -35,10 +35,15 @@ if __name__ == '__main__':
                     dailyRes = res.json().get('forecast').get('forecastday')[0].get('day')
                     avgC = dailyRes.get('avgtemp_c')
                     avgF = dailyRes.get('avgtemp_f')
-
                     print('Average temperature for today for {} is {}C / {}F.'.format(args[0], avgC, avgF))
+                elif res.status_code == 400:
+                    print("bad request error. trying to ruin the request, huh?")
+                elif res.status_code == 401:
+                    print('unauthorised error. Looks like api key is depleted - try setting yours with --apikey.')
+                elif res.status_code == 500:
+                    print('internal server error. Looks like server is down. Try again later.')
                 else:
-                    print('the error has occured for city {}. Maybe, try another one?'.format(args[0]))
+                    print('the unknown error has occured for city {}. Maybe, try another one?'.format(args[0]))
         else:
             print('Only one city at a time, please. Also do not forget to use "-" (dash) instead of " " (space)')
 
