@@ -5,7 +5,8 @@ from datetime import datetime
 apiKey = '3fc69af2efcb4a929b7112443212711'
 
 startMsg = 'Type --help or list of commands, --exit to exit the app.'
-helpMsg = 'Short help: type city or even country name for current average daily info: e.g. "Saint-Petersburg" or "USA"'
+helpMsg = 'Short help: type city/country name for avg temperature (WITH DASHES, NOT SPACES):\n' \
+          'e.g. "Saint-Petersburg" or "USA"'
 exitMsg = 'Bye!'
 
 
@@ -20,6 +21,8 @@ if __name__ == '__main__':
     print(startMsg)
     while True:
         args = input().split()
+        if len(args) == 0:
+            print('Hey, type something')
         if len(args) == 1:
             if (args[0]) == '--help':
                 print(helpMsg)
@@ -32,7 +35,10 @@ if __name__ == '__main__':
                     avgC = res.json().get('forecast').get('forecastday')[0].get('day').get('avgtemp_c')
                     print('Average temperature for today for {} is {} C.'.format(args[0], avgC))
                 else:
-                    print('the error has occured. Maybe, try another city?')
+                    print('the error has occured for city {}. Maybe, try another one?'.format(args[0]))
+        else:
+            print('Only one city at a time, please. Also do not forget to use "-" (dash) instead of " " (space)')
+
 
 
 
