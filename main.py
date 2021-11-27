@@ -2,11 +2,15 @@ import requests
 from datetime import datetime
 
 # Specially generated API key for (mostly) public usage with https://weatherapi.com/
+savedAPIKey = '3fc69af2efcb4a929b7112443212711'
 apiKey = '3fc69af2efcb4a929b7112443212711'
 
-startMsg = 'Type --help or list of commands, --exit to exit the app.'
+startMsg = 'Type --help or list of commands.'
 helpMsg = 'Short help: type city/country name for avg temperature (WITH DASHES, NOT SPACES):\n' \
-          'e.g. "Saint-Petersburg" or "USA"'
+          'e.g. "Saint-Petersburg" or "USA"\n' \
+          '--exit to exit the app\n' \
+          '--help for list of commands\n' \
+          '--apikey HERE_API_KEY to change the api key or --apikey default to reset it.'
 exitMsg = 'Bye!'
 
 
@@ -23,7 +27,7 @@ if __name__ == '__main__':
         args = input().split()
         if len(args) == 0:
             print('Hey, type something')
-        if len(args) == 1:
+        elif len(args) == 1:
             if (args[0]) == '--help':
                 print(helpMsg)
             elif (args[0]) == '--exit':
@@ -43,7 +47,18 @@ if __name__ == '__main__':
                 elif res.status_code == 500:
                     print('internal server error. Looks like server is down. Try again later.')
                 else:
-                    print('the unknown error has occured for city {}. Maybe, try another one?'.format(args[0]))
+
+                    print('the error has occured for city {}. Maybe, try --help?'.format(args[0]))
+        elif len(args) == 2:
+            if (args[0]) == '--apikey':
+                if args[1] == 'default':
+                    apiKey = savedAPIKey
+                else:
+                    apiKey = args[1]
+                print('apikey is now {}'.format(apiKey))
+
+            else:
+                print('Incorrect command. Maybe, try --help?')
         else:
             print('Only one city at a time, please. Also do not forget to use "-" (dash) instead of " " (space)')
 
