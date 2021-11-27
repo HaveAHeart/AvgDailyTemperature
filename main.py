@@ -24,7 +24,6 @@ def getWeatherData(city, year, month, day):
     url = 'https://api.weatherapi.com/v1/history.json?key={}&q={}&dt={}-{}-{}'
     resUrl = url.format(apiKey, city, year, month, day)
     response = requests.get(resUrl)
-    print(resUrl)
     return response
 
 
@@ -46,7 +45,7 @@ if __name__ == '__main__':
                     dailyRes = res.json().get('forecast').get('forecastday')[0].get('day')
                     avgC = dailyRes.get('avgtemp_c')
                     avgF = dailyRes.get('avgtemp_f')
-                    print('Average temperature for today for {} is {}C / {}F.'.format(args[0], avgC, avgF))
+                    print('Average temperature for {}, {}-{}-{} is {}C / {}F.'.format(args[0], y, m, d, avgC, avgF))
                 elif res.status_code == 400:
                     print("bad request error. trying to ruin the request, huh?")
                 elif res.status_code == 401:
