@@ -39,9 +39,15 @@ if __name__ == '__main__':
                     dailyRes = res.json().get('forecast').get('forecastday')[0].get('day')
                     avgC = dailyRes.get('avgtemp_c')
                     avgF = dailyRes.get('avgtemp_f')
-
                     print('Average temperature for today for {} is {}C / {}F.'.format(args[0], avgC, avgF))
+                elif res.status_code == 400:
+                    print("bad request error. trying to ruin the request, huh?")
+                elif res.status_code == 401:
+                    print('unauthorised error. Looks like api key is depleted - try setting yours with --apikey.')
+                elif res.status_code == 500:
+                    print('internal server error. Looks like server is down. Try again later.')
                 else:
+
                     print('the error has occured for city {}. Maybe, try --help?'.format(args[0]))
         elif len(args) == 2:
             if (args[0]) == '--apikey':
